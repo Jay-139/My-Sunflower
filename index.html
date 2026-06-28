@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Purva 🌻</title>
+  <meta name="description" content="A heartfelt letter, written in light and sunflowers." />
+
+  <!-- Google Fonts: Cormorant Garamond for display, Poppins for body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============================= -->
+  <!-- AMBIENT / DECORATIVE LAYERS   -->
+  <!-- ============================= -->
+  <div class="petal-field" id="petalField" aria-hidden="true"></div>
+
+  <!-- ============================= -->
+  <!-- HERO SECTION                  -->
+  <!-- ============================= -->
+  <header class="hero" id="hero">
+    <div class="hero__bg" style="background-image: url('images/hero.jpg');"></div>
+    <div class="hero__overlay"></div>
+
+    <div class="hero__content">
+      <p class="hero__eyebrow">a small, honest letter</p>
+      <h1 class="hero__title">
+        <span class="glow-text">For Purva</span>
+        <span class="hero__bloom" aria-hidden="true">🌻</span>
+      </h1>
+
+      <p class="hero__typing" id="typingText" aria-live="polite"></p>
+
+      <a href="#apology" class="glass-btn" id="readHeartBtn">
+        <span>Read My Heart</span>
+      </a>
+    </div>
+
+    <button class="scroll-indicator" id="scrollIndicator" aria-label="Scroll down">
+      <span class="scroll-indicator__dot"></span>
+    </button>
+  </header>
+
+  <!-- ============================= -->
+  <!-- SECTION 2 — THE APOLOGY       -->
+  <!-- ============================= -->
+  <section class="section section--apology" id="apology">
+    <div class="section__glow"></div>
+    <div class="glass-card fade-up">
+      <span class="section__eyebrow">from me, to you</span>
+      <h2 class="section__title">I Owe You An Honest Apology</h2>
+      <div class="section__body">
+        <p>I made this page not to pressure you or expect anything in return.</p>
+        <p>I simply wanted to say I'm sorry.</p>
+        <p>I understand that some of my actions made you feel uncomfortable. That was never what I wanted.</p>
+        <p>I'm learning, growing and taking responsibility.</p>
+        <p>Whether or not you choose to reply, I wanted these words to come from my heart.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= -->
+  <!-- SECTION 3 — GALLERY           -->
+  <!-- ============================= -->
+  <section class="section section--gallery" id="gallery">
+    <div class="section__header fade-up">
+      <span class="section__eyebrow">little moments</span>
+      <h2 class="section__title">Petals &amp; Light</h2>
+    </div>
+
+    <div class="gallery">
+      <figure class="gallery__item fade-up">
+        <img src="images/flower.jpg" alt="A single sunflower in soft light" loading="lazy" />
+      </figure>
+      <figure class="gallery__item gallery__item--tall fade-up">
+        <img src="images/sunflower.png" alt="Sunflower illustration" loading="lazy" />
+      </figure>
+      <figure class="gallery__item fade-up">
+        <img src="images/background.jpg" alt="A field of sunflowers at golden hour" loading="lazy" />
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============================= -->
+  <!-- SECTION 4 — TIMELINE          -->
+  <!-- ============================= -->
+  <section class="section section--timeline" id="timeline">
+    <div class="section__header fade-up">
+      <span class="section__eyebrow">where I am now</span>
+      <h2 class="section__title">A Quiet Kind of Change</h2>
+    </div>
+
+    <div class="timeline">
+      <article class="timeline__card fade-up">
+        <div class="timeline__icon">🌱</div>
+        <h3>I listened.</h3>
+        <p>I sat with what you told me instead of explaining it away.</p>
+      </article>
+
+      <article class="timeline__card fade-up">
+        <div class="timeline__icon">🌿</div>
+        <h3>I understood.</h3>
+        <p>I let myself see things from where you were standing, not just from where I was.</p>
+      </article>
+
+      <article class="timeline__card fade-up">
+        <div class="timeline__icon">🌻</div>
+        <h3>I'm growing.</h3>
+        <p>Slowly, honestly, and without expecting applause for it.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============================= -->
+  <!-- SECTION 5 — ENDING / BLOOM    -->
+  <!-- ============================= -->
+  <section class="section section--ending" id="ending">
+    <div class="ending__bg" style="background-image: url('images/ending.jpg');"></div>
+    <div class="ending__overlay"></div>
+
+    <div class="ending__content fade-up">
+      <div class="bloom" aria-hidden="true">
+        <div class="bloom__stem"></div>
+        <div class="bloom__flower">
+          <span class="bloom__petal"></span>
+          <span class="bloom__petal"></span>
+          <span class="bloom__petal"></span>
+          <span class="bloom__petal"></span>
+          <span class="bloom__petal"></span>
+          <span class="bloom__petal"></span>
+          <span class="bloom__petal"></span>
+          <span class="bloom__petal"></span>
+          <div class="bloom__center"></div>
+        </div>
+      </div>
+      <p class="ending__quote">"Whenever you're ready, I'll be here."</p>
+    </div>
+  </section>
+
+  <!-- ============================= -->
+  <!-- FOOTER                        -->
+  <!-- ============================= -->
+  <footer class="footer">
+    <span class="footer__icon">🌻</span>
+    <p>Made with sincerity</p>
+  </footer>
+
+  <!-- ============================= -->
+  <!-- FLOATING MUSIC PLAYER         -->
+  <!-- ============================= -->
+  <div class="music-player" id="musicPlayer">
+    <audio id="audio" src="music/piano.mp3" loop preload="none"></audio>
+
+    <button class="music-player__toggle" id="playPauseBtn" aria-label="Play music">
+      <svg id="playIcon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+        <path d="M8 5v14l11-7z"></path>
+      </svg>
+      <svg id="pauseIcon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="display:none;">
+        <path d="M6 5h4v14H6zM14 5h4v14h-4z"></path>
+      </svg>
+    </button>
+
+    <div class="music-player__volume">
+      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.6" aria-label="Volume" />
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
