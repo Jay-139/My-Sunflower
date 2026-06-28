@@ -1,0 +1,648 @@
+/* ===================================================================
+   FOR PURVA — STYLESHEET
+   A warm, cinematic, glassmorphic one-page letter.
+   Organized by: Variables → Reset → Utilities → Sections → Responsive
+   =================================================================== */
+
+/* -------------------------------------------------------------------
+   1. CSS VARIABLES (DESIGN TOKENS)
+   ------------------------------------------------------------------- */
+:root {
+  /* Colors — warm sunflower palette */
+  --color-bg:           #14100a;   /* near-black warm charcoal */
+  --color-bg-soft:      #1c1610;
+  --color-cream:        #faf3e0;   /* primary light text */
+  --color-cream-dim:    #e7dcc0;
+  --color-gold:         #f4a623;   /* sunflower petal gold */
+  --color-gold-deep:    #d4831f;   /* amber / center accent */
+  --color-gold-bright:  #ffce5c;
+  --color-brown:        #4a3520;   /* sunflower center brown */
+  --color-glass:        rgba(250, 243, 224, 0.06);
+  --color-glass-border: rgba(250, 243, 224, 0.16);
+  --color-glow:         rgba(244, 166, 35, 0.45);
+
+  /* Typography */
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body:    'Poppins', sans-serif;
+
+  /* Spacing */
+  --space-xs:  0.5rem;
+  --space-sm:  1rem;
+  --space-md:  2rem;
+  --space-lg:  4rem;
+  --space-xl:  7rem;
+
+  /* Effects */
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --blur-glass: 16px;
+  --shadow-soft: 0 20px 60px rgba(0, 0, 0, 0.45);
+  --transition-base: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* -------------------------------------------------------------------
+   2. RESET & BASE
+   ------------------------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-cream);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--color-cream);
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* -------------------------------------------------------------------
+   3. UTILITIES — Glassmorphism, glow, fade-up
+   ------------------------------------------------------------------- */
+.glass-card {
+  background: var(--color-glass);
+  border: 1px solid var(--color-glass-border);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: var(--space-lg) var(--space-md);
+}
+
+.glass-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.95rem 2.2rem;
+  background: rgba(250, 243, 224, 0.08);
+  border: 1px solid rgba(250, 243, 224, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 50px;
+  color: var(--color-cream);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  transition: var(--transition-base);
+  box-shadow: 0 0 0 rgba(244, 166, 35, 0);
+}
+
+.glass-btn:hover {
+  background: rgba(244, 166, 35, 0.18);
+  border-color: var(--color-gold);
+  box-shadow: 0 0 35px var(--color-glow);
+  transform: translateY(-3px);
+}
+
+.glow-text {
+  position: relative;
+  text-shadow: 0 0 25px var(--color-glow), 0 0 60px rgba(244, 166, 35, 0.25);
+}
+
+/* Fade-up reveal, toggled by JS via IntersectionObserver */
+.fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s var(--transition-base), transform 1s var(--transition-base);
+}
+
+.fade-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* -------------------------------------------------------------------
+   4. FLOATING PETALS (ambient background effect)
+   ------------------------------------------------------------------- */
+.petal-field {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  overflow: hidden;
+}
+
+.petal {
+  position: absolute;
+  top: -5%;
+  width: 18px;
+  height: 18px;
+  background: radial-gradient(circle at 30% 30%, var(--color-gold-bright), var(--color-gold) 60%, var(--color-gold-deep) 100%);
+  border-radius: 0 60% 0 60%;
+  opacity: 0.75;
+  filter: drop-shadow(0 0 6px rgba(244, 166, 35, 0.4));
+  animation: petal-fall linear infinite, petal-spin linear infinite;
+}
+
+@keyframes petal-fall {
+  from { transform: translateY(-10vh) translateX(0); }
+  to   { transform: translateY(110vh) translateX(40px); }
+}
+
+@keyframes petal-spin {
+  from { rotate: 0deg; }
+  to   { rotate: 360deg; }
+}
+
+/* -------------------------------------------------------------------
+   5. HERO SECTION
+   ------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 620px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: #2a1f12; /* fallback if image missing */
+  will-change: transform;
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, rgba(20, 16, 10, 0.35) 0%, rgba(14, 11, 7, 0.85) 75%),
+    linear-gradient(180deg, rgba(10, 8, 5, 0.55) 0%, rgba(10, 8, 5, 0.4) 40%, rgba(10, 8, 5, 0.9) 100%);
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 720px;
+  padding: 0 var(--space-md);
+}
+
+.hero__eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-cream-dim);
+  opacity: 0.8;
+  margin-bottom: var(--space-sm);
+  animation: fade-in-down 1.2s var(--transition-base) both;
+}
+
+.hero__title {
+  font-size: clamp(3rem, 9vw, 6.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  letter-spacing: 0.01em;
+  animation: fade-in-up 1.4s var(--transition-base) both;
+}
+
+.hero__bloom {
+  display: inline-block;
+  font-size: 0.6em;
+  animation: sway 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 18px var(--color-glow));
+}
+
+.hero__typing {
+  margin: var(--space-md) auto var(--space-lg);
+  max-width: 560px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.05rem, 2.4vw, 1.4rem);
+  color: var(--color-cream-dim);
+  min-height: 3.4em;
+}
+
+.hero__typing .cursor {
+  display: inline-block;
+  width: 2px;
+  margin-left: 2px;
+  background: var(--color-gold);
+  animation: blink 0.9s steps(1) infinite;
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: var(--space-md);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 46px;
+  border: 1.5px solid rgba(250, 243, 224, 0.5);
+  border-radius: 20px;
+  background: transparent;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.scroll-indicator__dot {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  margin-left: -2.5px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  box-shadow: 0 0 8px var(--color-gold);
+  animation: scroll-dot 1.8s ease-in-out infinite;
+}
+
+@keyframes scroll-dot {
+  0%   { top: 8px; opacity: 1; }
+  70%  { top: 28px; opacity: 0.2; }
+  100% { top: 8px; opacity: 0; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-down {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-6deg); }
+  50%      { transform: rotate(6deg); }
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* -------------------------------------------------------------------
+   6. GENERIC SECTION LAYOUT
+   ------------------------------------------------------------------- */
+.section {
+  position: relative;
+  padding: var(--space-xl) var(--space-md);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section__header {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+.section__eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: var(--space-xs);
+}
+
+.section__title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  position: relative;
+}
+
+.section__glow {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--color-glow), transparent 70%);
+  filter: blur(40px);
+  transform: translateX(-50%);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* -------------------------------------------------------------------
+   7. SECTION 2 — APOLOGY
+   ------------------------------------------------------------------- */
+.section--apology {
+  display: flex;
+  justify-content: center;
+}
+
+.section--apology .glass-card {
+  max-width: 680px;
+  text-align: center;
+}
+
+.section--apology .section__title {
+  margin-bottom: var(--space-md);
+}
+
+.section__body p {
+  font-size: 1.05rem;
+  color: var(--color-cream-dim);
+  margin-bottom: var(--space-sm);
+}
+
+.section__body p:last-child {
+  margin-bottom: 0;
+  font-style: italic;
+  color: var(--color-gold-bright);
+}
+
+/* -------------------------------------------------------------------
+   9. SECTION 4 — TIMELINE
+   ------------------------------------------------------------------- */
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+.timeline__card {
+  background: var(--color-glass);
+  border: 1px solid var(--color-glass-border);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  border-radius: var(--radius-lg);
+  padding: var(--space-md) var(--space-sm);
+  text-align: center;
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.timeline__card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(244, 166, 35, 0.5);
+  box-shadow: 0 25px 50px rgba(244, 166, 35, 0.18);
+}
+
+.timeline__icon {
+  font-size: 2.2rem;
+  margin-bottom: var(--space-sm);
+  filter: drop-shadow(0 0 12px var(--color-glow));
+}
+
+.timeline__card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.timeline__card p {
+  color: var(--color-cream-dim);
+  font-size: 0.95rem;
+}
+
+/* -------------------------------------------------------------------
+   10. SECTION 5 — ENDING / BLOOM
+   ------------------------------------------------------------------- */
+.section--ending {
+  max-width: none;
+  padding: 0;
+  height: 100vh;
+  min-height: 620px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.ending__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: #1a130b;
+}
+
+.ending__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10, 8, 5, 0.85) 0%, rgba(10, 8, 5, 0.55) 50%, rgba(10, 8, 5, 0.9) 100%);
+}
+
+.ending__content {
+  position: relative;
+  z-index: 2;
+  padding: 0 var(--space-md);
+}
+
+.ending__quote {
+  margin-top: var(--space-md);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.4rem, 3.6vw, 2.3rem);
+  color: var(--color-cream);
+  text-shadow: 0 0 30px var(--color-glow);
+}
+
+/* --- Blooming sunflower (pure CSS) --- */
+.bloom {
+  position: relative;
+  width: 160px;
+  height: 220px;
+  margin: 0 auto;
+}
+
+.bloom__stem {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 4px;
+  height: 90px;
+  background: linear-gradient(180deg, #6b8f3e, #3c5a23);
+  transform: translateX(-50%);
+  border-radius: 4px;
+}
+
+.bloom__flower {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 120px;
+  height: 120px;
+  transform: translateX(-50%) scale(0);
+  animation: bloom-grow 3s 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.bloom__petal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 28px;
+  height: 52px;
+  margin-top: -26px;
+  margin-left: -14px;
+  background: linear-gradient(180deg, var(--color-gold-bright), var(--color-gold) 70%);
+  border-radius: 50% 50% 0 0 / 70% 70% 0 0;
+  transform-origin: bottom center;
+  box-shadow: 0 0 14px rgba(244, 166, 35, 0.5);
+}
+
+.bloom__petal:nth-child(1) { transform: rotate(0deg) translateY(-26px); }
+.bloom__petal:nth-child(2) { transform: rotate(45deg) translateY(-26px); }
+.bloom__petal:nth-child(3) { transform: rotate(90deg) translateY(-26px); }
+.bloom__petal:nth-child(4) { transform: rotate(135deg) translateY(-26px); }
+.bloom__petal:nth-child(5) { transform: rotate(180deg) translateY(-26px); }
+.bloom__petal:nth-child(6) { transform: rotate(225deg) translateY(-26px); }
+.bloom__petal:nth-child(7) { transform: rotate(270deg) translateY(-26px); }
+.bloom__petal:nth-child(8) { transform: rotate(315deg) translateY(-26px); }
+
+.bloom__center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 38px;
+  height: 38px;
+  margin: -19px 0 0 -19px;
+  background: radial-gradient(circle at 35% 35%, #6b4a26, var(--color-brown) 70%);
+  border-radius: 50%;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
+}
+
+@keyframes bloom-grow {
+  0%   { transform: translateX(-50%) scale(0) rotate(-15deg); opacity: 0; }
+  60%  { transform: translateX(-50%) scale(1.08) rotate(4deg); opacity: 1; }
+  100% { transform: translateX(-50%) scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* -------------------------------------------------------------------
+   11. FOOTER
+   ------------------------------------------------------------------- */
+.footer {
+  text-align: center;
+  padding: var(--space-lg) var(--space-md) var(--space-xl);
+  color: var(--color-cream-dim);
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+}
+
+.footer__icon {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: var(--space-xs);
+  filter: drop-shadow(0 0 10px var(--color-glow));
+}
+
+/* -------------------------------------------------------------------
+   12. FLOATING MUSIC PLAYER
+   ------------------------------------------------------------------- */
+.music-player {
+  position: fixed;
+  right: var(--space-md);
+  bottom: var(--space-md);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  background: var(--color-glass);
+  border: 1px solid var(--color-glass-border);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  border-radius: 50px;
+  padding: 0.6rem 0.8rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.music-player__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(250, 243, 224, 0.25);
+  background: rgba(244, 166, 35, 0.12);
+  color: var(--color-gold-bright);
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.music-player__toggle:hover {
+  background: rgba(244, 166, 35, 0.25);
+  box-shadow: 0 0 20px var(--color-glow);
+  transform: scale(1.06);
+}
+
+.music-player__volume {
+  width: 0;
+  overflow: hidden;
+  transition: width var(--transition-base), opacity var(--transition-base);
+  opacity: 0;
+}
+
+.music-player:hover .music-player__volume,
+.music-player.is-active .music-player__volume {
+  width: 90px;
+  opacity: 1;
+}
+
+.music-player__volume input[type="range"] {
+  width: 90px;
+  accent-color: var(--color-gold);
+  cursor: pointer;
+}
+
+/* -------------------------------------------------------------------
+   13. RESPONSIVE — TABLET & MOBILE
+   ------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .timeline {
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+  }
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding: var(--space-lg) var(--space-sm);
+  }
+  .glass-card {
+    padding: var(--space-md) var(--space-sm);
+  }
+  .music-player {
+    right: var(--space-sm);
+    bottom: var(--space-sm);
+  }
+  .bloom {
+    transform: scale(0.85);
+  }
+}
